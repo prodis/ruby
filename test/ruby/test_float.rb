@@ -705,4 +705,12 @@ class TestFloat < Test::Unit::TestCase
     h = {0.0 => bug10979}
     assert_equal(bug10979, h[-0.0])
   end
+
+  def test_to_b
+    assert_not_predicate(0.0, :to_b)
+    assert_predicate(1.0, :to_b)
+    assert_predicate(2.0, :to_b)
+    assert_predicate(-1.0, :to_b)
+    assert_predicate(-2.0, :to_b)
+  end
 end

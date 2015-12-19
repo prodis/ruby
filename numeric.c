@@ -650,6 +650,22 @@ num_to_int(VALUE num)
 }
 
 /*
+ * call-seq:
+ *    num.to_b -> true or false
+ *
+ * Returns +false+ if +num+ is zero, +true+ otherwise.
+ */
+
+static VALUE
+num_to_b(VALUE num)
+{
+    if (rb_funcallv(num, rb_intern("zero?"), 0, 0)) {
+        return Qfalse;
+    }
+    return Qtrue;
+}
+
+/*
  *  call-seq:
  *     num.positive? ->  true or false
  *
@@ -4182,6 +4198,7 @@ Init_Numeric(void)
     rb_define_method(rb_cNumeric, "abs", num_abs, 0);
     rb_define_method(rb_cNumeric, "magnitude", num_abs, 0);
     rb_define_method(rb_cNumeric, "to_int", num_to_int, 0);
+    rb_define_method(rb_cNumeric, "to_b", num_to_b, 0);
 
     rb_define_method(rb_cNumeric, "real?", num_real_p, 0);
     rb_define_method(rb_cNumeric, "integer?", num_int_p, 0);

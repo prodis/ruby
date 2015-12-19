@@ -629,4 +629,14 @@ class TestIntegerComb < Test::Unit::TestCase
       end
     }
   end
+
+  def test_to_b
+    VS.each do |a|
+      if a == 0
+        assert_equal(false, a.to_b, "(#{a}).to_b")
+      else
+        assert_equal(true, a.to_b, "(#{a}).to_b")
+      end
+    end
+  end
 end

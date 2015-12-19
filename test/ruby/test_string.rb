@@ -2298,6 +2298,39 @@ class TestString < Test::Unit::TestCase
     assert_not_equal(str.object_id, (+str).object_id)
     assert_equal(str.object_id, (-str).object_id)
   end
+
+  def test_to_b
+    [ '1', '1 ', ' 1', ' 1 ',
+      't', 't ', ' t', ' t ',
+      'T', 'T ', ' T', ' T ',
+      'true', 'true ', ' true', ' true ',
+      'TRUE', 'TRUE ', ' TRUE', ' TRUE ',
+      'on', 'on ', ' on', ' on ',
+      'ON', 'ON ', ' ON ', ' ON ',
+      'y', 'y ', ' y', ' y ',
+      'Y', 'Y ', ' Y', ' Y ',
+      'yes', 'yes ', ' yes', ' yes ',
+      'YES', 'YES ', ' YES', ' YES '
+    ].each do |value|
+      assert_predicate(value, :to_b)
+    end
+
+    [ '',
+      '0',
+      '2', '2 ', ' 2', ' 2 ',
+      '-1', '-1 ', ' -1', ' -1 ',
+      '-2', '-2 ', ' -2', ' -2 ',
+      'f', 'F',
+      'false', 'FALSE',
+      'off', 'OFF',
+      'n', 'N',
+      'no', 'NO',
+      'not', 'NOT',
+      'wherever'
+    ].each do |value|
+      assert_not_predicate(value, :to_b)
+    end
+  end
 end
 
 class TestString2 < TestString

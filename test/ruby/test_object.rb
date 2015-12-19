@@ -889,4 +889,15 @@ class TestObject < Test::Unit::TestCase
       num.times {a.clone.set}
     end;
   end
+
+  def test_nil_to_b
+    assert_not_predicate(nil, :to_b)
+  end
+
+  def test_true_to_b
+    assert_predicate(true, :to_b)
+  end
+  def test_false_to_b
+    assert_not_predicate(false, :to_b)
+  end
 end

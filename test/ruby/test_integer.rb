@@ -278,4 +278,12 @@ class TestInteger < Test::Unit::TestCase
       assert_equal(i+1, (n+1).bit_length, "#{n+1}.bit_length")
     }
   end
+
+  def test_to_b
+    assert_not_predicate(0, :to_b)
+    assert_predicate(1, :to_b)
+    assert_predicate(2, :to_b)
+    assert_predicate(-1, :to_b)
+    assert_predicate(-2, :to_b)
+  end
 end

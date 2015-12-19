@@ -723,4 +723,9 @@ class TestBignum < Test::Unit::TestCase
     end
     assert_equal(T1024 ^ 10, T1024 ^ obj)
   end
+
+  def test_to_b
+    assert_predicate(1111_1111_1111_1111_1111_1111_1111_1111, :to_b)
+    assert_predicate(-1111_1111_1111_1111_1111_1111_1111_1111, :to_b)
+  end
 end

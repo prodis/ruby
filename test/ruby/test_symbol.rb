@@ -364,4 +364,29 @@ class TestSymbol < Test::Unit::TestCase
     assert_equal str, str.to_sym.to_s
     assert_not_predicate(str, :frozen?, bug11721)
   end
+
+  def test_to_b
+    [ :'1',
+      :t, :T,
+      :true, :TRUE,
+      :on, :ON,
+      :y, :Y,
+      :yes, :YES,
+    ].each do |value|
+      assert_predicate(value, :to_b)
+    end
+
+    [ :'',
+      :'0', :'2', :'-1', :'-2',
+      :f, :F,
+      :false, :FALSE,
+      :off, :OFF,
+      :n, :N,
+      :no, :NO,
+      :not, :NOT,
+      :wherever
+    ].each do |value|
+      assert_not_predicate(value, :to_b)
+    end
+  end
 end

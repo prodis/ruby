@@ -8945,6 +8945,37 @@ str_scrub_bang(int argc, VALUE *argv, VALUE str)
     return str;
 }
 
+
+/* "trues" array contains the valid values to convert String to TrueClass. */
+#define STRING_TRUES_SIZE 6
+static const char* trues[STRING_TRUES_SIZE] = {"t", "true", "on", "y", "yes", "1"};
+
+/*
+ * call-seq:
+ *    str.to_b -> true or false
+ *
+ * Returns <code>true<code> if <code>str</code> is one of "t", "true", "on", "y", "yes" or "1" values.
+ * Returns <code>false<code> otherwise.
+ * <code>to_b</code> method ignores trailing spaces and letter cases.
+ */
+
+static VALUE
+rb_str_to_b(VALUE str)
+{
+    int i;
+    for (i = 0; i < STRING_TRUES_SIZE; i++) {
+        str = rb_str_downcase(rb_str_strip(str));
+
+        if (strcmp(RSTRING_PTR(str), trues[i]) == 0) {
+            return Qtrue;
+        }
+    }
+
+    return Qfalse;
+}
+
+
+
 /**********************************************************************
  * Document-class: Symbol
  *
@@ -9084,6 +9115,20 @@ sym_inspect(VALUE sym)
     }
     dest[0] = ':';
     return str;
+}
+
+
+/*
+ * call-seq:
+ *   sym.to_b -> true or false
+ *
+ * Same as <code>sym.to_s.to_b</code>.
+ */
+
+static VALUE
+rb_sym_to_b(VALUE sym)
+{
+    return rb_str_to_b(rb_sym2str(sym));
 }
 
 
@@ -9423,6 +9468,7 @@ Init_String(void)
 
     rb_define_method(rb_cString, "to_i", rb_str_to_i, -1);
     rb_define_method(rb_cString, "to_f", rb_str_to_f, 0);
+    rb_define_method(rb_cString, "to_b", rb_str_to_b, 0);
     rb_define_method(rb_cString, "to_s", rb_str_to_s, 0);
     rb_define_method(rb_cString, "to_str", rb_str_to_s, 0);
     rb_define_method(rb_cString, "inspect", rb_str_inspect, 0);
@@ -9524,6 +9570,7 @@ Init_String(void)
     rb_define_method(rb_cSymbol, "==", sym_equal, 1);
     rb_define_method(rb_cSymbol, "===", sym_equal, 1);
     rb_define_method(rb_cSymbol, "inspect", sym_inspect, 0);
+    rb_define_method(rb_cSymbol, "to_b", rb_sym_to_b, 0);
     rb_define_method(rb_cSymbol, "to_s", rb_sym_to_s, 0);
     rb_define_method(rb_cSymbol, "id2name", rb_sym_to_s, 0);
     rb_define_method(rb_cSymbol, "intern", sym_to_sym, 0);
